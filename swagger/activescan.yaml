@@ -1,0 +1,56 @@
+swagger: "2.0"
+
+info:
+  title: "ActiveScan API"
+  version: "1.0"
+
+schemes:
+  - http
+
+consumes:
+  - application/json
+
+produces:
+  - application/json
+
+basePath: /1.0
+
+paths:
+  /health:
+    get:
+      operationId: api.scan.class_instance.health
+      summary: Health check for the service
+      responses:
+        '200':
+          description: 'Service is healthy'
+  /scan/{ipAddress}:
+    get:
+      operationId: api.scan.class_instance.get_scan
+      summary: Get active scan information for the IP address
+      parameters:
+        - name: ipAddress
+          in: path
+          type: string
+          required: true
+          description: "IPv4 address"
+      responses:
+        '404':
+          description: 'No scan data available for the IP'
+        '202':
+          description: 'Scan is in progress for the IP'
+    post:
+      operationId: api.scan.class_instance.run_scan
+      summary: Scan an IP address
+      parameters:
+        - name: ipAddress
+          in: path
+          type: string
+          required: true
+          description: "IPv4 address"
+      responses:
+        '200':
+          description: 'Scan information for the host'
+        '202':
+          description: 'Profile for the IP address'
+          schema:
+            type: string
